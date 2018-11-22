@@ -25,14 +25,14 @@
 				date:null
 			}
 		},
-		created(){
-			//欢迎进入的时间
+		created(){//跳转到首页，设置一个定时器
+			//
 			var date=new Date().getTime();
 			var num=0;
 			setTimeout(()=>{
-				this.$router.push('/router')
+				this.$router.push('/home')
 			},7000)
-		}
+		} 
 	}
 </script>
 
