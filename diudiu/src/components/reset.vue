@@ -2,37 +2,33 @@
 	<div id="box">
 		<div class="top">
 			<img src="../assets/tree.jpg" class="photo"/>
-			<img src="../assets/title.png" class="title"/>
-			<img src="../assets/title2.png" class="logo"/>
+			<img src="../assets/tranks2.png" class="title"/>
 			<div class="cloud">
 				<img src="../assets/cloud.png" />
 				<img src="../assets/cloud.png" />
 				<img src="../assets/cloud.png" />
 			</div>
-			<img src="../assets/shake.png" class="laba"/>
 		</div>
-		<div class="bottom">
-			<img src="../assets/logo.png"/>
-		</div>
+		<button @click="flag">重新评价</button>
 	</div>
 </template>
 
 <script>
 	export default{
-		name:"Welcome",
+		name:'Reset',
+		components:{
+		},
 		data(){
 			return{
-				date:null
+				
+				bj:'#3c9bbb'
 			}
 		},
-		created(){//跳转到首页，设置一个定时器
-			//
-			var date=new Date().getTime();
-			var num=0;
-			setTimeout(()=>{
+		methods:{
+			flag(){
 				this.$router.push('/home')
-			},7000)
-		} 
+			}
+		}
 	}
 </script>
 
@@ -71,39 +67,6 @@
 			-webkit-transform: translateX(0);
 		}
 	}
-	@keyframes shake{
-		10%{
-			-webkit-transform: rotate(60deg);
-		}
-		20%{
-			-webkit-transform: rotate(0deg);
-		}
-		30%{
-			-webkit-transform: rotate(-60deg);
-		}
-		40%{
-			-webkit-transform: rotate(0deg);
-		}
-		50%{
-			-webkit-transform: rotate(60deg);
-		}
-		60%{
-			-webkit-transform: rotate(0deg);
-		}
-		70%{
-			-webkit-transform: rotate(-60deg);
-		}
-		80%{
-			-webkit-transform: rotate(0deg);
-		}
-		90%{
-			-webkit-transform: rotate(60deg);
-		}
-		100%{
-			-webkit-transform: rotate(0deg);
-		}
-		
-	}
 	
 	
 	#box{
@@ -116,7 +79,7 @@
 		top:0;
 		left:0;
 		width:100%;
-		height: 710px;
+		height: 770px;
 		-webkit-transform: translateY(300px);
 			transform: translateY(300px);
 		-webkit-animation: move 1s linear;
@@ -131,9 +94,9 @@
 	}
 	.top .title{
 		position: absolute;
-		top:576px;
+		top:600px;
 		width: 640px;
-		height: 73px;
+		height: 150px;
 	}
 	.top .logo{
 		position: absolute;
@@ -174,18 +137,19 @@
 		-webkit-transform-origin: left bottom;
 		transform-origin: left bottom;
 	}
-	.bottom{
-		width: 100%;
-		height: 40px;
-		position: absolute;
-		top: 1040px;
-		opacity: 0;
-		-webkit-animation: move 2s forwards linear;
-		animation: move 2s forwards linear;
-		background: none;
-	}
-	.bottom img{
-		width: 100%;
-		height: 40px;
+	button{
+		width: 600px;
+		height: 95px;
+		background: #3C9BBB;
+		color:#fff;
+		font-size: 29px;
+		text-align: center;
+		line-height: 95px;
+		position: fixed;
+		bottom:20px;
+		left:18px;
+		border:none;
+		outline: none;
+		border-radius: 6px;
 	}
 </style>

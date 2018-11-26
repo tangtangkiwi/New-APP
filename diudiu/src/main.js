@@ -5,6 +5,7 @@ import App from './App'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 import router from '@/router/router.js'
+import store from '@/store/store.js'
 
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'//这里注意具体看使用的版本是否需要引入样式，以及具体位置。
@@ -18,5 +19,6 @@ new Vue({
   el: '#app',
   components: { App },
   template: '<App/>',
-  router
+  router,
+  store
 })

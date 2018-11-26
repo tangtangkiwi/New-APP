@@ -1,6 +1,7 @@
-<template>
+ <template>
 	<div>
-		<div class="banner">
+		<div :class="onShow?'main':''">
+			<div class="banner">
 				<swiper :options="swiperOption "><!--:options="swiperOption " 轮播图样式的设置，需放入js的data数据里-->
 			 	<swiper-slide><img src="../assets/1.jpg" /></swiper-slide>
 			 	<swiper-slide><img src="../assets/2.jpg" /></swiper-slide>
@@ -9,11 +10,11 @@
 			 	<swiper-slide><img src="../assets/5.jpg" /></swiper-slide>
 			 </swiper> 
 			 <div class="swiper-pagination"></div><!--分页码-->
-			 <p class="nav">
+			 <span class="nav">
 			 	成都九寨沟景区
-			 </p>
-		</div>
-		<div class="score">
+			 </span>
+			</div>
+			<div class="score">
 			<h2>给景区评分</h2>
 			<ul class="score-list">
 				<li>
@@ -35,25 +36,32 @@
 					</nav>
 				</li>
 			</ul>
-		</div>
-		<div class="info">
+			</div>
+			<div class="info">
 			<h3>给景区添加标签</h3>
 			<ul class="info-list">
 				<li v-for="(item,index) in arr" :key="index" @click="setTag(index)" :class="index==onoff?'active':''">{{item}}</li> 
 				<!--动态加入class（active）        (?和：)三元运算符，(？)true,(:)false -->
 			</ul>
 		</div>
-		<button>提交</button>
+		<btn @hanlderClick="selected" :setBj="bj"/><!--自定义一个事件“选择是否提交”，方便于与另外的btn组件-->
+	</div>
+		<transition name="show">
+			<div class="mask" v-show="onShow"></div>
+		</transition>
+		
 	</div>
 </template>
 <script>
 	import 'swiper/dist/css/swiper.css'
 	import {swiper,swiperSlide} from 'vue-awesome-swiper'
+	import btn from '@/components/btn'
 	export default{
 		name:'Home',
 		components:{
 			swiper,
-			swiperSlide
+			swiperSlide,
+			btn
 		},
 		data(){
 			return{//轮播图放入数据里
@@ -65,8 +73,10 @@
 					}
 				},
 				arr:['服务好','景色赞','一般般','看人海','挤爆了','千篇一律','物价高','美女多','帅哥多'],
-				onoff:null //定义一个onoff,判断点的时候是哪一个
-			}
+				onoff:null ,//定义一个onoff,判断点的时候是哪一个
+				bj:'#cacaca',
+				onShow:false
+			} 
 		},
 		methods:{//放入函数
 			btn(index,num,ev){
@@ -78,17 +88,32 @@
 					}else{
 						children[i].style.backgroundPosition='0 0'
 					}
-					
-				}
+				};
+				this.$store.commit('changRangArr',{id:num,value:index+1});//在模块里调用数据管理
+				this.bj='#3c9bbb'
 			},
 			setTag(index){//传入index
 				this.onoff=index;//把下标赋予给onoff,使其相等，动态添加active
+				var info=this.arr[index];//定义一个变量，获取数组里的数据
+				this.$store.commit('changTagInfo',info)//在模块里调用数据管理
+			},
+			selected(){
+				//alert(222)
+				this.onShow=true;
+				setTimeout(()=>{
+					this.onShow=false;
+					this.$router.push('/new')
+				},3000);
+				
 			}
 		}
 	}
 </script>
 
 <style>
+	.main{
+		filter: blur(3px);
+	}
 	.banner{
 		width: 100%;
 		height: 345px;
@@ -196,12 +221,36 @@
 		background: #3C9BBB;
 		color:#fff;
 	}
-	button{
-		width: 606px;
-		height: 74px;
-		background:#3c9bbb ;
-		margin: 100px 16px 18px;
-		color:#fff;
-		font-size: 29px;
+	.mask{
+		position: fixed;
+		top:0;
+		left: 0;
+		width:100%;
+		height: 100%;
+		background: url(../assets/mask.png) no-repeat #000 center center;
+		z-index: 999;
+		opacity: 0.7;
+		
+	}
+	
+	
+	.show-enter{
+		opacity: 0;
+	}
+	.show-enter-to{
+		opacity: 0.7;
+	}
+	.show-enter-active{
+		transition: 2s;
+	}
+	
+	.show-leave{
+		opacity: 0.7;
+	}
+	.show-leave-to{
+		opacity: 0;
+	}
+	.show-leave-active{
+		transition: 2s;
 	}
 </style>
